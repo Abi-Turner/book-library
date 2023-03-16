@@ -7,7 +7,7 @@ exports.createReader = async (req, res) => {
     res.status(201).json(newReader);
   } catch (err) {
     console.error(err);
-    res.status(500).json(err.message);
+    res.status(400).json(err.message);
   }
 };
 
@@ -19,7 +19,7 @@ exports.findReaders = async (req, res) => {
     }
     return res.status(200).json(readers);
   } catch (err) {
-    return res.status(500).json(err.message);
+    return res.status(400).json(err.message);
   }
 };
 
@@ -33,7 +33,7 @@ exports.findReaderById = async (req, res) => {
     }
     res.status(200).json(reader);
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(400).json(err.message);
   }
 };
 
@@ -62,7 +62,7 @@ exports.updateReader = async (req, res) => {
 
     return res.status(200).json(updatedReader);
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(400).json(err.message);
   }
 };
 
@@ -78,6 +78,6 @@ exports.destroyReader = async (req, res) => {
 
     res.status(204).json(deletedRows);
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(400).json(err.message);
   }
 };

@@ -28,6 +28,62 @@ describe('/readers', () => {
         expect(newReaderRecord.email).to.equal('future_ms_darcy@gmail.com');
         expect(newReaderRecord.password).to.equal('JaneAustin23');
       });
+
+      it('creates an error if email is in the incorrect format', async () => {
+        const response = await request(app)
+          .post('/readers')
+          .send({
+            name: 'Elizabeth Bennet',
+            email: 'future_ms_darcy..gmail.co',
+            password: 'JaneAustin23',
+          });
+        const newReaderRecord = await Reader.findByPk(response.body.id, {
+          raw: true,
+        });
+
+        expect(response.status).to.equal(400);
+        expect(newReaderRecord).to.equal(null);
+      });
+
+      it('creates an error if the password is less than 8 characters', async () => {
+        const response = await request(app)
+          .post('/readers')
+          .send({
+            name: 'Elizabeth Bennet',
+            email: 'future_ms_darcy@gmail.com',
+            password: '123',
+          });
+        const newReaderRecord = await Reader.findByPk(response.body.id, {
+          raw: true,
+        });
+
+        expect(response.status).to.equal(400);
+        expect(newReaderRecord).to.equal(null);
+      });
+
+      it('creates an error if fields are missing', async () => {
+        const response = await request(app).post('/readers').send({});
+        const newReaderRecord = await Reader.findByPk(response.body.id, {
+          raw: true,
+        });
+
+        expect(response.status).to.equal(400);
+        expect(newReaderRecord).to.equal(null);
+      });
+
+      it('creates an error if passed an empty string', async () => {
+        const response = await request(app).post('/readers').send({
+          name: '',
+          password: 'JaneAustin23',
+          email: 'future_ms_darcy@gmail.com',
+        });
+        const newReaderRecord = await Reader.findByPk(response.body.id, {
+          raw: true,
+        });
+
+        expect(response.status).to.equal(400);
+        expect(newReaderRecord).to.equal(null);
+      });
     });
   });
 
