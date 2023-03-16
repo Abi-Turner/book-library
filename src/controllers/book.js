@@ -7,7 +7,7 @@ exports.createBook = async (req, res) => {
     res.status(201).json(newBook);
   } catch (err) {
     console.log(err);
-    res.status(500).json(err.message);
+    res.status(400).json(err.message);
   }
 };
 
@@ -19,7 +19,7 @@ exports.findBooks = async (req, res) => {
     }
     return res.status(200).json(books);
   } catch (err) {
-    return res.status(500).json(err.message);
+    return res.status(400).json(err.message);
   }
 };
 
@@ -33,7 +33,7 @@ exports.findBookById = async (req, res) => {
     }
     res.status(200).json(book);
   } catch (err) {
-    return res.status(500).json(err.message);
+    return res.status(400).json(err.message);
   }
 };
 
@@ -63,7 +63,7 @@ exports.updateBook = async (req, res) => {
 
     return res.status(200).json(updatedBook);
   } catch (err) {
-    return res.status(500).json(err.message);
+    return res.status(400).json(err.message);
   }
 };
 
@@ -79,6 +79,6 @@ exports.destroyBook = async (req, res) => {
 
     res.status(204).json(deletedRows);
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(400).json(err.message);
   }
 };

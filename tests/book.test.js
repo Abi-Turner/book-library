@@ -28,6 +28,34 @@ describe('/book', () => {
         expect(newBookRecord.genre).to.equal('Southern Gothic');
         expect(newBookRecord.ISBN).to.equal('12345');
       });
+
+      it('creates an error if there is no title', async () => {
+        const response = await request(app)
+          .post('/book')
+          .send({
+            author: 'Harper Lee',
+            genre: 'Southern Gothic',
+            ISBN: '12345',
+          });
+        const newBookRecord = await Book.findByPk(response.body.id, { raw: true, });
+
+        expect(response.status).to.equal(400);
+        expect(newBookRecord).to.equal(null);
+      });
+
+      it('creates an error if there is no author', async () => {
+        const response = await request(app)
+          .post('/book')
+          .send({
+            title: 'To Kill a Mockingbird',
+            genre: 'Southern Gothic',
+            ISBN: '12345'
+          });
+        const newBookRecord = await Book.findByPk(response.body.id, { raw: true, });
+
+        expect(response.status).to.equal(400);
+        expect(newBookRecord).to.equal(null);
+      });
     });
   });
 

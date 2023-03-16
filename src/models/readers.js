@@ -6,7 +6,7 @@ module.exports = (connection, DataTypes) => {
       validate: {
         notNull: {
           args: [true],
-          msg: 'Name cannot be null.',
+          msg: 'Name required.',
         },
         notEmpty: {
           args: [true],
@@ -24,7 +24,7 @@ module.exports = (connection, DataTypes) => {
         },
         notNull: {
           args: [true],
-          msg: 'Email cannot be null.',
+          msg: 'Email required.',
         },
       },
     },
@@ -38,7 +38,7 @@ module.exports = (connection, DataTypes) => {
         },
         notNull: {
           args: [true],
-          msg: 'Password cannot be null.',
+          msg: 'Password required.',
         },
       },
     },
