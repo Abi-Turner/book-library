@@ -30,13 +30,11 @@ describe('/readers', () => {
       });
 
       it('creates an error if email is in the incorrect format', async () => {
-        const response = await request(app)
-          .post('/readers')
-          .send({
-            name: 'Elizabeth Bennet',
-            email: 'future_ms_darcy..gmail.co',
-            password: 'JaneAustin23',
-          });
+        const response = await request(app).post('/readers').send({
+          name: 'Elizabeth Bennet',
+          email: 'future_ms_darcy..gmail.co',
+          password: 'JaneAustin23',
+        });
         const newReaderRecord = await Reader.findByPk(response.body.id, {
           raw: true,
         });
@@ -46,13 +44,11 @@ describe('/readers', () => {
       });
 
       it('creates an error if the password is less than 8 characters', async () => {
-        const response = await request(app)
-          .post('/readers')
-          .send({
-            name: 'Elizabeth Bennet',
-            email: 'future_ms_darcy@gmail.com',
-            password: '123',
-          });
+        const response = await request(app).post('/readers').send({
+          name: 'Elizabeth Bennet',
+          email: 'future_ms_darcy@gmail.com',
+          password: '123',
+        });
         const newReaderRecord = await Reader.findByPk(response.body.id, {
           raw: true,
         });

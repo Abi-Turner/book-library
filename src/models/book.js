@@ -6,13 +6,13 @@ module.exports = (connection, DataTypes) => {
       validate: {
         notNull: {
           args: [true],
-          msg: 'Title required.'
+          msg: 'Title required.',
         },
         notEmpty: {
           args: [true],
-          msg: 'Title required.'
+          msg: 'Title required.',
         },
-      }
+      },
     },
     author: {
       type: DataTypes.STRING,
@@ -20,19 +20,19 @@ module.exports = (connection, DataTypes) => {
       validate: {
         notNull: {
           args: [true],
-          msg: 'Author required.'
+          msg: 'Author required.',
         },
         notEmpty: {
           args: [true],
-          msg: 'Author required.'
+          msg: 'Author required.',
         },
-      }
+      },
     },
     genre: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     ISBN: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
   };
   const BookModel = connection.define('Book', schema);
