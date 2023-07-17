@@ -4,6 +4,7 @@ const {
   updateItem,
   getItemById,
   deleteItem,
+  getAllBooks,
 } = require('./helper');
 
 const getBooks = (_, res) => getAllItems(res, 'book');

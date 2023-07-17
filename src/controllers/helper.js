@@ -1,4 +1,4 @@
-const { Book, Reader, Genre } = require('../models');
+const { Book, Reader, Genre, Author } = require('../models');
 
 const get404Error = (model) => ({ error: `The ${model} could not be found.` });
 
@@ -7,15 +7,18 @@ const getModel = (model) => {
         book: Book,
         reader: Reader,
         genre: Genre,
+        author: Author,
     };
 
     return models[model];
 };
 
 const getOptions = (model) => {
-    if (model === 'book') return { include: Genre };
+    if (model === 'book') return { include: Genre, Author, };
 
-    if (model === 'genre') return { include: Book };
+    if (model === 'genre') return { include: Book, Author, };
+
+    if (model === 'author') return { include: Book, Genre, };
 
     return {};
 };
@@ -31,12 +34,10 @@ const removePassword = (obj) => {
 const getAllItems = async (res, model) => {
     const Model = getModel(model);
 
-    const options = getOptions(model);
-
-    const items = await Model.findAll({ ...options })
+    const items = await Model.findAll();
     
     const itemsWithoutPassword = items.map((item) => {
-        return removePassword(item.get());
+        return removePassword(item.dataValues);
     });
 
     res.status(200).json(itemsWithoutPassword);
@@ -47,7 +48,7 @@ const createItem = async (res, model, item) => {
 
     try {
         const newItem = await Model.create(item);
-        const itemWithoutPassword = removePassword(newItem.get());
+        const itemWithoutPassword = await removePassword(newItem.get());
 
         res.status(201).json(itemWithoutPassword);
     } catch (err) {
@@ -74,9 +75,8 @@ const updateItem = async (res, model, item, id) => {
 const getItemById = async (res, model, id) => {
     const Model = getModel(model);
 
-    const options = getOptions(model);
 
-    const item = await Model.findByPk(id, { ...options });
+    const item = await Model.findByPk(id);
 
     if (!item) {
         res.status(404).json(get404Error(model));
@@ -85,6 +85,14 @@ const getItemById = async (res, model, id) => {
         res.status(200).json(itemWithoutPassword);
     }
 };
+
+const getAllBooks = (res, model) => {
+    const Model = getModel(model);
+
+    return Model.findAll({ include: Book }).then((items) => {
+        res.status(200).json(items);
+    });
+}
 
 const deleteItem = async (res, model, id) => {
     const Model = getModel(model);
@@ -104,4 +112,5 @@ module.exports = {
     updateItem,
     getItemById,
     deleteItem,
+    getAllBooks,
 };

@@ -10,31 +10,15 @@ module.exports = (connection, DataTypes) => {
         },
         notEmpty: {
           args: [true],
-          msg: 'Title required.',
+          msg: 'Title cannot be empty.',
         },
       },
-    },
-    author: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          args: [true],
-          msg: 'Author required.',
-        },
-        notEmpty: {
-          args: [true],
-          msg: 'Author required.',
-        },
-      },
-    },
-    genre: {
-      type: DataTypes.STRING,
     },
     ISBN: {
       type: DataTypes.STRING,
     },
   };
+  
   const BookModel = connection.define('Book', schema);
-  return BookModel;
+  return BookModel
 };
